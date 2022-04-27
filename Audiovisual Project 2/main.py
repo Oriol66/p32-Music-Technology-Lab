@@ -37,14 +37,14 @@ if __name__ == '__main__':
     label4 = tk.Label(window, text="Ceba", bg='orange', fg='white')
     label4.pack(side=tk.LEFT) #deixa 20 a l'esqurra i 50 a la dreta
 
-    finish = Repreductor.main_reproductor()
+    #finish = Repreductor.main_reproductor()
 
 
 
-    #window.mainloop()
+    window.mainloop()
 
 
 
-    #playsound.playsound('Demo3.mp3')#Ha d'estar en la carpeta del programa
+    playsound.playsound('Demo3.mp3')#Ha d'estar en la carpeta del programa
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
