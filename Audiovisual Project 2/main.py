@@ -37,11 +37,11 @@ if __name__ == '__main__':
     label4 = tk.Label(window, text="Ceba", bg='orange', fg='white')
     label4.pack(side=tk.LEFT) #deixa 20 a l'esqurra i 50 a la dreta
 
-    finish = Repreductor.main_reproductor()
+    #finish = Repreductor.main_reproductor()
 
 
 
-    #window.mainloop()
+    window.mainloop()
 
 
 
