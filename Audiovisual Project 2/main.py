@@ -44,6 +44,7 @@ if __name__ == '__main__':
     window.mainloop()
 
 
+    #shan de fer en apaçkgigcjhkv
 
     playsound.playsound('Demo3.mp3')#Ha d'estar en la carpeta del programa
 
