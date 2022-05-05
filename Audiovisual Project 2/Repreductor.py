@@ -37,27 +37,6 @@ for i in range(50, 200, 10):
 
 def iniciar_reproduccion():
     global cancion_actual, direcion, pos, n, actualizar
-    barra1['value'] = random.choice(lista)
-    barra2['value'] = random.choice(lista)
-    barra3['value'] = random.choice(lista)
-    barra4['value'] = random.choice(lista)
-    barra5['value'] = random.choice(lista)
-    barra6['value'] = random.choice(lista)
-    barra7['value'] = random.choice(lista)
-    barra8['value'] = random.choice(lista)
-    barra9['value'] = random.choice(lista)
-    barra10['value'] = random.choice(lista)
-    barra11['value'] = random.choice(lista)
-    barra12['value'] = random.choice(lista)
-    barra13['value'] = random.choice(lista)
-    barra14['value'] = random.choice(lista)
-    barra15['value'] = random.choice(lista)
-    barra16['value'] = random.choice(lista)
-    barra17['value'] = random.choice(lista)
-    barra18['value'] = random.choice(lista)
-    barra19['value'] = random.choice(lista)
-    barra20['value'] = random.choice(lista)
-
     cancion_actual = direcion[pos]
     nombre_cancion = cancion_actual.split('/')
     nombre_cancion = nombre_cancion[-1]
@@ -79,6 +58,27 @@ def iniciar_reproduccion():
     tt = minutos * 60 + segundos
     tiempo['maximum'] = tt  # tiempo total de la cancion
     texto['text'] = str(minutos) + ":" + str(segundos)
+
+    barra1['value'] = random.choice(lista)
+    barra2['value'] = random.choice(lista)
+    barra3['value'] = random.choice(lista)
+    barra4['value'] = random.choice(lista)
+    barra5['value'] = random.choice(lista)
+    barra6['value'] = random.choice(lista)
+    barra7['value'] = random.choice(lista)
+    barra8['value'] = random.choice(lista)
+    barra9['value'] = random.choice(lista)
+    barra10['value'] = random.choice(lista)
+    barra11['value'] = random.choice(lista)
+    barra12['value'] = random.choice(lista)
+    barra13['value'] = random.choice(lista)
+    barra14['value'] = random.choice(lista)
+    barra15['value'] = random.choice(lista)
+    barra16['value'] = random.choice(lista)
+    barra17['value'] = random.choice(lista)
+    barra18['value'] = random.choice(lista)
+    barra19['value'] = random.choice(lista)
+    barra20['value'] = random.choice(lista)
 
     actualizar = ventana.after(100, iniciar_reproduccion)
 
@@ -239,13 +239,13 @@ nombre.grid(column=0, row=1, columnspan=8, padx=5)
 cantidad = Label(frame2, bg='black', fg='green2')
 cantidad.grid(column=8, row=1)
 
-imagen1 = PhotoImage(file='search.png')
-imagen2 = PhotoImage(file='play.png')
-imagen3 = PhotoImage(file='pausa.png')
-imagen4 = PhotoImage(file='repetir.png')
-imagen5 = PhotoImage(file='stop.png')
-imagen6 = PhotoImage(file='anterior.png')
-imagen7 = PhotoImage(file='adelante.png')
+imagen1 = PhotoImage(file='search.png').subsample(4)
+imagen2 = PhotoImage(file='play.png').subsample(4)
+imagen3 = PhotoImage(file='pausa.png').subsample(4)
+imagen4 = PhotoImage(file='repetir.png').subsample(4)
+imagen5 = PhotoImage(file='stop.png').subsample(4)
+imagen6 = PhotoImage(file='anterior.png').subsample(4)
+imagen7 = PhotoImage(file='adelante.png').subsample(4)
 
 boton1 = Button(frame2, image=imagen1, command=abrir_archivo)
 boton1.grid(column=0, row=2, pady=10)
@@ -273,4 +273,3 @@ nivel = Label(frame2, bg='black', fg='green2', width=3)
 nivel.grid(column=8, row=2)
 
 ventana.mainloop()
-
