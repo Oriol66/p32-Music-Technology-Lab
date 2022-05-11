@@ -84,38 +84,39 @@ bars = []
 
 
 low = np.arange(50, 150, 10)
-midlo = np.arange(150,300,50)
-midhi = np.arange(300, 1000, 100)
-mids = np.arange(1000,4000, 500)
-high = np.arange(4000,10000, 1000)
+midlo = np.arange(150,250,25)
+midhi = np.arange(250, 1000, 50)
+mids = np.arange(1000,4000, 100)
+high = np.arange(4000,10000, 500)
 ultrahi = np.arange(10000,20000, 10000)
 frequencies = np.concatenate([low,midlo,midhi,mids,high,ultrahi])
 
 r = len(frequencies)
 
 
-width = screen_w/r
+width = screen_w/2/r
 
 x = (screen_w - width*r)/2
-y = 50
-mheight = 500
+y = 100
+mheight = 100
 
 for c in frequencies:
 
-    if c >= 1300:
+    if c >= 150:
         bars.append(AudioBar(x, y, c, (200, 0, 50), max_height=mheight, width=width))
-    if c >= 2600:
+    if c >= 250:
         bars.append(AudioBar(x, y, c, (150, 0, 100), max_height=mheight, width=width))
-    if c >= 3900:
+    if c >= 1000:
         bars.append(AudioBar(x, y, c, (100, 0, 150), max_height=mheight, width=width))
-    if c >= 5200:
+    if c >= 4000:
         bars.append(AudioBar(x, y, c, (50, 0, 200), max_height=mheight, width=width))
-    if c >= 6500:
+    if c >= 10000:
         bars.append(AudioBar(x, y, c, (0, 0, 255), max_height=mheight, width=width))
-    if c < 1300:
+    if c < 150:
         bars.append(AudioBar(x, y, c, (255, 0, 0), max_height=mheight, width=width))
 
-    x += width
+    x += 2*np.pi+width
+    y += 2*np.pi+width
 
 t = pygame.time.get_ticks()
 getTicksLastFrame = t
