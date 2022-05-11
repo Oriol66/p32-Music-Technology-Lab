@@ -1,6 +1,7 @@
 import librosa
 import numpy as np
 import pygame
+from tkinter import Button, Frame, Tk, PhotoImage
 
 
 def clamp(min_value, max_value, value):
@@ -45,7 +46,7 @@ class AudioBar:
         pygame.draw.rect(screen, self.color, (self.x, self.y + self.max_height - self.height, self.width, self.height))
 
 
-filename = "Demo_3.wav"
+filename = "Pont Aeri - Flying Free.wav"
 
 time_series, sample_rate = librosa.load(filename)  # getting information from the file
 
@@ -82,7 +83,13 @@ screen = pygame.display.set_mode([screen_w, screen_h])
 bars = []
 
 
-frequencies = np.arange(100, 8000, 100)
+low = np.arange(50, 150, 10)
+midlo = np.arange(150,300,50)
+midhi = np.arange(300, 1000, 100)
+mids = np.arange(1000,4000, 500)
+high = np.arange(4000,10000, 1000)
+ultrahi = np.arange(10000,20000, 10000)
+frequencies = np.concatenate([low,midlo,midhi,mids,high,ultrahi])
 
 r = len(frequencies)
 
@@ -90,21 +97,23 @@ r = len(frequencies)
 width = screen_w/r
 
 x = (screen_w - width*r)/2
+y = 50
+mheight = 500
 
 for c in frequencies:
 
     if c >= 1300:
-        bars.append(AudioBar(x, 100, c, (200, 0, 50), max_height=500, width=width))
+        bars.append(AudioBar(x, y, c, (200, 0, 50), max_height=mheight, width=width))
     if c >= 2600:
-        bars.append(AudioBar(x, 100, c, (150, 0, 100), max_height=500, width=width))
+        bars.append(AudioBar(x, y, c, (150, 0, 100), max_height=mheight, width=width))
     if c >= 3900:
-        bars.append(AudioBar(x, 100, c, (100, 0, 150), max_height=500, width=width))
+        bars.append(AudioBar(x, y, c, (100, 0, 150), max_height=mheight, width=width))
     if c >= 5200:
-        bars.append(AudioBar(x, 100, c, (50, 0, 200), max_height=500, width=width))
+        bars.append(AudioBar(x, y, c, (50, 0, 200), max_height=mheight, width=width))
     if c >= 6500:
-        bars.append(AudioBar(x, 100, c, (0, 0, 255), max_height=500, width=width))
+        bars.append(AudioBar(x, y, c, (0, 0, 255), max_height=mheight, width=width))
     if c < 1300:
-        bars.append(AudioBar(x, 100, c, (255, 0, 0), max_height=500, width=width))
+        bars.append(AudioBar(x, y, c, (255, 0, 0), max_height=mheight, width=width))
 
     x += width
 
@@ -116,6 +125,8 @@ pygame.mixer.music.play(0)
 
 # Run until the user asks to quit
 running = True
+
+
 while running:
 
     t = pygame.time.get_ticks()
@@ -127,13 +138,13 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
+
     # Fill the background with white
-    screen.fill((255, 255, 255))
+    screen.fill((0, 0, 0))
 
     for b in bars:
         b.update(deltaTime, get_decibel(pygame.mixer.music.get_pos()/1000.0, b.freq))
         b.render(screen)
-
 
     # Flip the display
     pygame.display.flip()

@@ -6,6 +6,7 @@ from tkinter import Button, Label, Tk, filedialog, ttk, Frame, PhotoImage
 import pygame   #Per reproduir en mp3
 import random   #Per crear valors aleatòris
 import mutagen  #ens permet obtenir el temps final d'una cançó
+import Visualizer_2
 
 # from mutagen.mp3 import MP3
 
