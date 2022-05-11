@@ -42,7 +42,7 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
 }</component>
-  <component name="RunManager" selected="Python.main (1)">
+  <component name="RunManager" selected="Python.main">
     <configuration name="Repreductor" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="p32-Music-Technology-Lab" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -57,28 +57,6 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Audiovisual Project 2/Repreductor.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Visualizer" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="p32-Music-Technology-Lab" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Audiovisual Project 2" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Audiovisual Project 2/Visualizer.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -131,6 +109,28 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="main (2)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="p32-Music-Technology-Lab" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Audiovisual Project 2" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Audiovisual Project 2/main (2).py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="p32-Music-Technology-Lab" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -155,11 +155,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.main" />
+        <item itemvalue="Python.main (2)" />
         <item itemvalue="Python.main (1)" />
         <item itemvalue="Python.Visualizer_2" />
         <item itemvalue="Python.Repreductor" />
-        <item itemvalue="Python.Visualizer" />
-        <item itemvalue="Python.main" />
       </list>
     </recent_temporary>
   </component>
@@ -176,7 +176,9 @@
       <workItem from="1651654792598" duration="1899000" />
       <workItem from="1651657426045" duration="2411000" />
       <workItem from="1651747123747" duration="10226000" />
-      <workItem from="1652258279034" duration="5279000" />
+      <workItem from="1652258279034" duration="6778000" />
+      <workItem from="1652281941472" duration="1435000" />
+      <workItem from="1652283435662" duration="2767000" />
     </task>
     <servers />
   </component>
@@ -185,9 +187,10 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/p32_Music_Technology_Lab$Visualizer.coverage" NAME="Visualizer Coverage Results" MODIFIED="1651747138759" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Audiovisual Project 2" />
-    <SUITE FILE_PATH="coverage/p32_Music_Technology_Lab$main.coverage" NAME="main Coverage Results" MODIFIED="1651053245318" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Audiovisual Project 2" />
+    <SUITE FILE_PATH="coverage/p32_Music_Technology_Lab$main.coverage" NAME="main Coverage Results" MODIFIED="1652286223865" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Audiovisual Project 2" />
     <SUITE FILE_PATH="coverage/p32_Music_Technology_Lab$Repreductor.coverage" NAME="Repreductor Coverage Results" MODIFIED="1651752895447" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Audiovisual Project 2" />
-    <SUITE FILE_PATH="coverage/p32_Music_Technology_Lab$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1652263453380" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Audiovisual Project 2/un altre visualizer/music-visualizer-master" />
+    <SUITE FILE_PATH="coverage/p32_Music_Technology_Lab$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1652281039184" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Audiovisual Project 2/un altre visualizer/music-visualizer-master" />
+    <SUITE FILE_PATH="coverage/p32_Music_Technology_Lab$main__2_.coverage" NAME="main (2) Coverage Results" MODIFIED="1652283846574" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Audiovisual Project 2" />
     <SUITE FILE_PATH="coverage/p32_Music_Technology_Lab$Visualizer_2.coverage" NAME="Visualizer_2 Coverage Results" MODIFIED="1652262960033" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Audiovisual Project 2" />
   </component>
 </project>

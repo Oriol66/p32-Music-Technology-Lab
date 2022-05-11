@@ -147,6 +147,8 @@ while running:
         b.update(deltaTime, get_decibel(pygame.mixer.music.get_pos()/1000.0, b.freq))
         b.render(screen)
 
+
+
     # Flip the display
     pygame.display.flip()
 
