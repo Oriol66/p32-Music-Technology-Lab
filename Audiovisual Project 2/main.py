@@ -6,6 +6,8 @@ import sys
 #import pygame
 #from tkinter import Button, Frame, Tk, PhotoImage
 import pygame
+import tkinter as tk
+from tkinter import filedialog
 from numba import np
 
 from AudioAnalyzer import *
@@ -40,13 +42,14 @@ def buttons_play():
         shape_option = 2
         pygame.mixer.music.rewind()
         running = False
-    if Buttons.folder_button.draw():
-        path = r'C:\Program Files (x86)\IronPython 2.7\Lib'
-        sys.path.append(path)
 
-        import subprocess
-        subprocess.Popen('explorer "C:\temp"')
-        
+    if Buttons.folder_button.draw():
+              
+        root = tk.Tk()
+        root.withdraw()
+
+        filename = filedialog.askopenfilenames()
+
     #if Buttons.close_button.draw():
      #   global main_running
       #  main_running = False
@@ -127,7 +130,7 @@ bass_trigger_started = 0
 min_decibel = -80
 max_decibel = 80
 
-shape_option = 1    #LINE
+shape_option = 2    #LINE
 main_running = True
 #########################THE MAIN###################
 while main_running:
@@ -312,6 +315,7 @@ while main_running:
         pygame.mixer.music.load(filename)
         pygame.mixer.music.play(0)
 
+        running = True
         while running:
 
             avg_bass = 0
