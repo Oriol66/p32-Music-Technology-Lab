@@ -198,7 +198,7 @@ while main_running:
         running = True
 
         while running:
-            pygame.draw.rect(gameDisplay, (0,0,0), (611, 473, 100, 50))
+
 
             t = pygame.time.get_ticks()
             deltaTime = (t - getTicksLastFrame) / 1000.0
@@ -210,7 +210,8 @@ while main_running:
                     running = False
                     main_running = False
 
-            # Fill the background with white
+            # Fill the background with black
+            screen.fill((0, 0, 0))
 
 
             for b in bars:

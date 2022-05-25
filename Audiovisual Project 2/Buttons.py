@@ -1,5 +1,5 @@
 import pygame
-
+import sys
 pygame.init()
 
 infoObject = pygame.display.Info()
@@ -116,6 +116,13 @@ class Button_circle():
 
         return pressed
 
+
+
+path = r'C:\Program Files (x86)\IronPython 2.7\Lib'
+sys.path.append(path)
+
+import subprocess
+subprocess.Popen('explorer "C:\temp"')
 
 class Button_cross():
     def __init__(self, xcross, ycross, cross):
