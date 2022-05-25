@@ -1,7 +1,12 @@
 import pygame
 import sys
-pygame.init()
 
+global screen
+global infoObject
+global screen_h
+global screen_w
+
+pygame.init()
 infoObject = pygame.display.Info()
 
 screen_w = int(infoObject.current_w-50)
@@ -14,12 +19,13 @@ pause = pygame.image.load('pausa.png').convert_alpha()
 line = pygame.image.load("white_line.png").convert_alpha()
 circle = pygame.image.load("circle_image.jpg").convert_alpha()
 cross = pygame.image.load("white_cross_image.png").convert_alpha()
-
+folder = pygame.image.load("carpeta.png").convert_alpha()
 
 image1 = pause
 image2 = line
 image3 = circle
 image4 = cross
+image5 = folder
 
 shape_number = 1
 its_playing = True
@@ -116,13 +122,32 @@ class Button_circle():
 
         return pressed
 
+class Button_folder():
+    def __init__(self, xfolder, yfolder, folder):
+        self.folder = pygame.transform.scale(folder, (100, 100))
+        self.rect = self.line.get_rect()
+        self.rect.topleft = (xfolder, yfolder)
+        self.clicked = False
+        global image5
+        image5 = self.line
+
+    def draw(self):
+        pressed = False
+        pos = pygame.mouse.get_pos()
+        #check mouseover and cliked conditions
+        if self.rect.collidepoint(pos):
+            if pygame.mouse.get_pressed()[0] == 1:
+                self.clicked = True
+                pressed = True
 
 
-path = r'C:\Program Files (x86)\IronPython 2.7\Lib'
-sys.path.append(path)
+            else:
+                pressed = False
 
-import subprocess
-subprocess.Popen('explorer "C:\temp"')
+        screen.blit(image5, (self.rect.x, self.rect.y))
+        return pressed
+
+
 
 class Button_cross():
     def __init__(self, xcross, ycross, cross):
@@ -166,3 +191,7 @@ circle_button = Button_circle(xcircle, ycircle, circle)
 xcross = screen_w - screen_w/6
 ycross = screen_h/8
 close_button = Button_cross(xcross, ycross, cross)
+
+xfolder = screen_w - screen_w/6
+yfolder = screen_h/4 + screen_h/8
+folder_button = Button_cross(xfolder, yfolder, folder)

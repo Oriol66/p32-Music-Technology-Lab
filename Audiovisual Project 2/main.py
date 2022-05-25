@@ -1,5 +1,6 @@
 import colorsys
 import random
+import sys
 #import librosa
 #import numpy as np
 #import pygame
@@ -39,7 +40,13 @@ def buttons_play():
         shape_option = 2
         pygame.mixer.music.rewind()
         running = False
+    if Buttons.folder_button.draw():
+        path = r'C:\Program Files (x86)\IronPython 2.7\Lib'
+        sys.path.append(path)
 
+        import subprocess
+        subprocess.Popen('explorer "C:\temp"')
+        
     #if Buttons.close_button.draw():
      #   global main_running
       #  main_running = False
