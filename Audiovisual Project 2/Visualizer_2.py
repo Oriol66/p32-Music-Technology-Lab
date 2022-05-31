@@ -115,8 +115,7 @@ for c in frequencies:
     if c < 150:
         bars.append(AudioBar(x, y, c, (255, 0, 0), max_height=mheight, width=width))
 
-    x += 2*np.pi+width
-    y += 2*np.pi+width
+    x += 2*width
 
 t = pygame.time.get_ticks()
 getTicksLastFrame = t

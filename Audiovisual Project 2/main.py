@@ -10,10 +10,100 @@ def rnd_color():
     return [int(256 * i) for i in colorsys.hls_to_rgb(h, l, s)]
 
 
-filename = "Demo_3.wav"
+<<<<<<< Updated upstream
+=======
+#For play the scene and interactive buttons. It must be executed every time
+def buttons_play():
 
+    if Buttons.play_button.draw():
+        if Buttons.its_playing:
+            pygame.mixer.music.unpause()
+        else:
+            pygame.mixer.music.pause()
+
+    global shape_option, running, filename, analyzer
+
+    if Buttons.line_button.draw():
+        shape_option = 1
+        running = False
+        pygame.mixer.music.rewind()
+
+    if Buttons.circle_button.draw():
+        shape_option = 2
+        pygame.mixer.music.rewind()
+        running = False
+
+    if Buttons.folder_button.draw():
+              
+        root = tk.Tk()
+        root.withdraw()
+        pygame.mixer.quit()
+        filename = filedialog.askopenfilename(title="Select a wav file",filetypes=[('WAV files', '*.wav')])
+        analyzer = AudioAnalyzer()
+        analyzer.load(filename)
+        pygame.mixer.init()
+        pygame.mixer.music.load(filename)
+        pygame.mixer.music.play(0)
+
+
+    #if Buttons.close_button.draw():
+     #   global main_running
+      #  main_running = False
+
+
+    pygame.display.flip()
+
+
+#Clamp function
+def clamp(min_value, max_value, value):
+
+    if value < min_value:
+        return min_value
+
+    if value > max_value:
+        return max_value
+
+    return value
+
+#Audiobar class
+class AudioBar:
+
+    def __init__(self, x, y, freq, color, width=50, min_height=10, max_height=100, min_decibel=-80, max_decibel=0):
+
+        self.x, self.y, self.freq = x, y, freq
+
+        self.color = color
+
+        self.width, self.min_height, self.max_height = width, min_height, max_height
+
+        self.height = min_height
+
+        self.min_decibel, self.max_decibel = min_decibel, max_decibel
+
+        self.__decibel_height_ratio = (self.max_height - self.min_height)/(self.max_decibel - self.min_decibel)
+
+    def update(self, dt, decibel):
+
+        desired_height = decibel * self.__decibel_height_ratio + self.max_height
+
+        speed = (desired_height - self.height)/0.1
+
+        self.height += speed * dt
+
+        self.height = clamp(self.min_height, self.max_height, self.height)
+
+    def render(self, screen):
+
+        pygame.draw.rect(screen, self.color, (self.x, self.y + self.max_height - self.height, self.width, self.height))
+
+
+
+###############################GLOBAL AND WINDOW VARIABLES#######################
+>>>>>>> Stashed changes
+filename = "Demo_3.wav"
 analyzer = AudioAnalyzer()
 analyzer.load(filename)
+
 
 pygame.init()
 
@@ -37,10 +127,29 @@ bass_trigger_started = 0
 min_decibel = -80
 max_decibel = 80
 
+<<<<<<< Updated upstream
 circle_color = (40, 40, 40)
 polygon_default_color = [255, 255, 255]
 polygon_bass_color = polygon_default_color.copy()
 polygon_color_vel = [0, 0, 0]
+=======
+shape_option = 2    #CIRCLE
+main_running = True
+#########################THE MAIN###################
+while main_running:
+
+    ##########################LINE########################################################################
+    if(shape_option == 1):
+
+        screen.fill((0, 0, 0))
+
+        time_series, sample_rate = librosa.load(filename)  # getting information from the file
+
+        # getting a matrix which contains amplitude values according to frequency and time indexes
+        stft = np.abs(librosa.stft(time_series, hop_length=512, n_fft=2048 * 4))
+
+        spectrogram = librosa.amplitude_to_db(stft, ref=np.max)  # converting the matrix to decibel matrix
+>>>>>>> Stashed changes
 
 poly = []
 poly_color = polygon_default_color.copy()
