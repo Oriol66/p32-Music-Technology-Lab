@@ -1,5 +1,7 @@
 import colorsys
 import random
+import tkinter as tk
+from tkinter import filedialog
 
 from AudioAnalyzer import *
 import Buttons
@@ -10,8 +12,6 @@ def rnd_color():
     return [int(256 * i) for i in colorsys.hls_to_rgb(h, l, s)]
 
 
-<<<<<<< Updated upstream
-=======
 #For play the scene and interactive buttons. It must be executed every time
 def buttons_play():
 
@@ -99,7 +99,7 @@ class AudioBar:
 
 
 ###############################GLOBAL AND WINDOW VARIABLES#######################
->>>>>>> Stashed changes
+
 filename = "Demo_3.wav"
 analyzer = AudioAnalyzer()
 analyzer.load(filename)
@@ -127,12 +127,12 @@ bass_trigger_started = 0
 min_decibel = -80
 max_decibel = 80
 
-<<<<<<< Updated upstream
+
 circle_color = (40, 40, 40)
 polygon_default_color = [255, 255, 255]
 polygon_bass_color = polygon_default_color.copy()
 polygon_color_vel = [0, 0, 0]
-=======
+
 shape_option = 2    #CIRCLE
 main_running = True
 #########################THE MAIN###################
@@ -149,7 +149,7 @@ while main_running:
         stft = np.abs(librosa.stft(time_series, hop_length=512, n_fft=2048 * 4))
 
         spectrogram = librosa.amplitude_to_db(stft, ref=np.max)  # converting the matrix to decibel matrix
->>>>>>> Stashed changes
+
 
 poly = []
 poly_color = polygon_default_color.copy()
