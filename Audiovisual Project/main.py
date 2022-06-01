@@ -12,8 +12,7 @@ from numba import np
 from os import path
 from AudioAnalyzer import *
 import Buttons
-import Line
-import Circle
+
 
 #Random color function
 def rnd_color():
@@ -25,14 +24,14 @@ def mp3_to_wav():
 #For play the scene and interactive buttons. It must be executed every time
 def buttons_play():
 
+    global shape_option, running, filename, analyzer
+
     if Buttons.play_button.draw():
         if Buttons.its_playing:
             pygame.mixer.music.unpause()
         else:
             pygame.mixer.music.pause()
 
-    global shape_option
-    global running
 
     if Buttons.line_button.draw():
         shape_option = 1
@@ -48,9 +47,13 @@ def buttons_play():
 
         root = tk.Tk()
         root.withdraw()
-        global filename
+        pygame.mixer.quit()
+        filename = filedialog.askopenfilename(title="Select a wav file",filetypes=[('WAV files', '*.wav')])
+        analyzer = AudioAnalyzer()
+        analyzer.load(filename)
+        pygame.mixer.init()
+        pygame.mixer.music.load(filename)
         running = False
-        filename = filedialog.askopenfilenames()
 
     if Buttons.forward_button.draw():
         ttime = 0.0
@@ -63,8 +66,6 @@ def buttons_play():
 
     if Buttons.back_button.draw():
             pygame.mixer.music.set_pos(pygame.mixer.music.get_pos()/1000 - 10)
-
-
 
 
     pygame.display.flip()
@@ -219,7 +220,6 @@ while main_running:
 
         # Run until the user asks to quit
         running = True
-
         while running:
 
 
@@ -243,6 +243,8 @@ while main_running:
 
 
             buttons_play()
+
+
 
     ###########CIRCLE##########################################################################
 
