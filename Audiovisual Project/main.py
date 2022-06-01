@@ -58,8 +58,8 @@ def buttons_play():
 
         pygame.mixer.init()
         pygame.mixer.music.stop()
-        ttime = pygame.mixer.music.get_pos()
-        pygame.mixer.music.play(1, ttime )
+        ttime = pygame.mixer.music.get_pos()/2
+        pygame.mixer.music.play(0, ttime)
 
 
     if Buttons.back_button.draw():
