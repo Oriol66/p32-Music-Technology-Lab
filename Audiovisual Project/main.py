@@ -19,12 +19,11 @@ def rnd_color():
     h, s, l = random.random(), 0.5 + random.random() / 2.0, 0.4 + random.random() / 5.0
     return [int(256 * i) for i in colorsys.hls_to_rgb(h, l, s)]
 
-def mp3_to_wav():
-    a = 5
+
 #For play the scene and interactive buttons. It must be executed every time
 def buttons_play():
 
-    global shape_option, running, filename, analyzer
+    global shape_option, running, filename, analyzer, pygame
 
     if Buttons.play_button.draw():
         if Buttons.its_playing:
@@ -56,12 +55,11 @@ def buttons_play():
         running = False
 
     if Buttons.forward_button.draw():
-        ttime = 0.0
-        ttime = pygame.mixer.music.get_pos() / 1000.0 + 10.0
+
+        pygame.mixer.init()
         pygame.mixer.music.stop()
-        #pygame.mixer.music.set_pos(ttime)
-        pygame.mixer.music.play(0, ttime)
-        #pygame.mixer.music.set_pos(t)
+        ttime = pygame.mixer.music.get_pos()
+        pygame.mixer.music.play(1, ttime )
 
 
     if Buttons.back_button.draw():
