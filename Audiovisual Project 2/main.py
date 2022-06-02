@@ -43,13 +43,17 @@ def buttons_play():
         analyzer.load(filename)
         pygame.mixer.init()
         pygame.mixer.music.load(filename)
-        pygame.mixer.music.play(0)
 
+        running = False
 
-    #if Buttons.close_button.draw():
-     #   global main_running
-      #  main_running = False
+    if Buttons.forward_button.draw():
+        pygame.mixer.init()
+        pygame.mixer.music.stop()
+        ttime = pygame.mixer.music.get_pos() / 2
+        pygame.mixer.music.play(0, ttime)
 
+    if Buttons.back_button.draw():
+        pygame.mixer.music.set_pos(pygame.mixer.music.get_pos() / 1000 - 10)
 
     pygame.display.flip()
 
@@ -109,11 +113,12 @@ pygame.init()
 
 infoObject = pygame.display.Info()
 
-screen_w = int(infoObject.current_w - 50)
-screen_h = int(infoObject.current_w / 2)
+screen_w = int(infoObject.current_w)
+screen_h = int(infoObject.current_w/2 +25)
 
 # Set up the drawing window
 screen = pygame.display.set_mode([screen_w, screen_h])
+
 
 t = pygame.time.get_ticks()
 getTicksLastFrame = t
@@ -141,7 +146,12 @@ while main_running:
     ##########################LINE########################################################################
     if(shape_option == 1):
 
+        analyzer = AudioAnalyzer()
+        analyzer.load(filename)
+
         screen.fill((0, 0, 0))
+
+        pygame.draw.rect(screen, 'gray', pygame.Rect(screen_h - 200, 0, screen_w, 200))
 
         time_series, sample_rate = librosa.load(filename)  # getting information from the file
 
@@ -150,162 +160,256 @@ while main_running:
 
         spectrogram = librosa.amplitude_to_db(stft, ref=np.max)  # converting the matrix to decibel matrix
 
+        frequencies = librosa.core.fft_frequencies(n_fft=2048 * 4)  # getting an array of frequencies
 
-poly = []
-poly_color = polygon_default_color.copy()
+        # getting an array of time periodic
+        times = librosa.core.frames_to_time(np.arange(spectrogram.shape[1]), sr=sample_rate, hop_length=512,
+                                            n_fft=2048 * 4)
 
-circleX = int(screen_w / 2)
-circleY = int(screen_h / 2)
+        time_index_ratio = len(times) / times[len(times) - 1]
 
-min_radius = 100
-max_radius = 150
-radius = min_radius
-radius_vel = 0
+        frequencies_index_ratio = len(frequencies) / frequencies[len(frequencies) - 1]
 
-bass = {"start": 50, "stop": 100, "count": 12}
-heavy_area = {"start": 120, "stop": 250, "count": 40}
-low_mids = {"start": 251, "stop": 2000, "count": 50}
-high_mids = {"start": 2001, "stop": 6000, "count": 20}
 
-freq_groups = [bass, heavy_area, low_mids, high_mids]
+        def get_decibel(target_time, freq):
+            return spectrogram[int(freq * frequencies_index_ratio)][int(target_time * time_index_ratio)]
 
-bars = []
+        bars = []
 
-tmp_bars = []
+        low = np.arange(50, 150, 10)
+        midlo = np.arange(150, 250, 25)
+        midhi = np.arange(250, 1000, 50)
+        mids = np.arange(1000, 4000, 100)
+        high = np.arange(4000, 10000, 500)
+        ultrahi = np.arange(10000, 20000, 10000)
+        frequencies = np.concatenate([low, midlo, midhi, mids, high, ultrahi])
 
-length = 0
+        r = len(frequencies)
 
-for group in freq_groups:
+        width = screen_w / 2 / r
 
-    g = []
+        x = 150
+        y = 300
+        mheight = 400
 
-    s = group["stop"] - group["start"]
+        for c in frequencies:
 
-    count = group["count"]
+            if c >= 150:
+                bars.append(AudioBar(x, y, c, (200, 0, 50), max_height=mheight, width=width))
+            if c >= 250:
+                bars.append(AudioBar(x, y, c, (150, 0, 100), max_height=mheight, width=width))
+            if c >= 1000:
+                bars.append(AudioBar(x, y, c, (100, 0, 150), max_height=mheight, width=width))
+            if c >= 4000:
+                bars.append(AudioBar(x, y, c, (50, 0, 200), max_height=mheight, width=width))
+            if c >= 10000:
+                bars.append(AudioBar(x, y, c, (0, 0, 255), max_height=mheight, width=width))
+            if c < 150:
+                bars.append(AudioBar(x, y, c, (255, 0, 0), max_height=mheight, width=width))
 
-    reminder = s % count
+            x += 10
+            #y += 2 * np.pi + width
 
-    step = int(s / count)
+        t = pygame.time.get_ticks()
+        getTicksLastFrame = t
 
-    rng = group["start"]
+        pygame.mixer.music.load(filename)
+        pygame.mixer.music.play(0)
 
-    for i in range(count):
 
-        arr = None
+        # Run until the user asks to quit
+        running = True
 
-        if reminder > 0:
-            reminder -= 1
-            arr = np.arange(start=rng, stop=rng + step + 2)
-            rng += step + 3
-        else:
-            arr = np.arange(start=rng, stop=rng + step + 1)
-            rng += step + 2
+        while running:
 
-        g.append(arr)
 
-        length += 1
+            t = pygame.time.get_ticks()
+            deltaTime = (t - getTicksLastFrame) / 1000.0
+            getTicksLastFrame = t
 
-    tmp_bars.append(g)
+            # Did the user click the window close button?
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+                    main_running = False
 
-angle_dt = 340 / length
+            # Fill the background with black
+            screen.fill((0, 0, 0))
 
-ang = 0
 
-for g in tmp_bars:
-    gr = []
-    for c in g:
-        gr.append(
-            RotatedAverageAudioBar(circleX + radius * math.cos(math.radians(ang - 90)),
-                                   circleY + radius * math.sin(math.radians(ang - 90)), c, (255, 0, 255), angle=ang,
-                                   width=8, max_height=370))
-        ang += angle_dt
+            for b in bars:
+                b.update(deltaTime, get_decibel(pygame.mixer.music.get_pos() / 1000.0, b.freq))
+                b.render(screen)
 
-    bars.append(gr)
 
-pygame.mixer.music.load(filename)
-pygame.mixer.music.play(0)
+            buttons_play()
 
-running = True
-while running:
+    ###########CIRCLE##########################################################################
 
-    avg_bass = 0
-    poly = []
+    if (shape_option == 2):
+        analyzer = AudioAnalyzer()
+        analyzer.load(filename)
 
-    t = pygame.time.get_ticks()
-    deltaTime = (t - getTicksLastFrame) / 1000.0
-    getTicksLastFrame = t
-
-    timeCount += deltaTime
-
-    screen.fill(circle_color)
-
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-
-    for b1 in bars:
-        for b in b1:
-            b.update_all(deltaTime, pygame.mixer.music.get_pos() / 1000.0, analyzer)
-
-    for b in bars[0]:
-        avg_bass += b.avg
-
-    avg_bass /= len(bars[0])
-
-    if avg_bass > bass_trigger:
-        if bass_trigger_started == 0:
-            bass_trigger_started = pygame.time.get_ticks()
-        if (pygame.time.get_ticks() - bass_trigger_started) / 1000.0 > 2:
-            polygon_bass_color = rnd_color()
-            bass_trigger_started = 0
-        if polygon_bass_color is None:
-            polygon_bass_color = rnd_color()
-        newr = min_radius + int(
-            avg_bass * ((max_radius - min_radius) / (max_decibel - min_decibel)) + (max_radius - min_radius))
-        radius_vel = (newr - radius) / 0.15
-
-        polygon_color_vel = [(polygon_bass_color[x] - poly_color[x]) / 0.15 for x in range(len(poly_color))]
-
-    elif radius > min_radius:
-        bass_trigger_started = 0
-        polygon_bass_color = None
-        radius_vel = (min_radius - radius) / 0.15
-        polygon_color_vel = [(polygon_default_color[x] - poly_color[x]) / 0.15 for x in range(len(poly_color))]
-
-    else:
-        bass_trigger_started = 0
-        poly_color = polygon_default_color.copy()
-        polygon_bass_color = None
+        circle_color = (0, 0, 0)
+        polygon_default_color = [255, 255, 255]
+        polygon_bass_color = polygon_default_color.copy()
         polygon_color_vel = [0, 0, 0]
 
-        radius_vel = 0
+        poly = []
+        poly_color = polygon_default_color.copy()
+
+        circleX = int(screen_w / 2)
+        circleY = int(screen_h / 2  - 50)
+
+        min_radius = 60
+        max_radius = 100
         radius = min_radius
+        radius_vel = 0
 
-    radius += radius_vel * deltaTime
+        bass = {"start": 50, "stop": 100, "count": 12}
+        heavy_area = {"start": 120, "stop": 250, "count": 40}
+        low_mids = {"start": 251, "stop": 2000, "count": 50}
+        high_mids = {"start": 2001, "stop": 6000, "count": 20}
 
-    for x in range(len(polygon_color_vel)):
-        value = polygon_color_vel[x] * deltaTime + poly_color[x]
-        poly_color[x] = value
+        freq_groups = [bass, heavy_area, low_mids, high_mids]
 
-    for b1 in bars:
-        for b in b1:
-            b.x, b.y = circleX + radius * math.cos(math.radians(b.angle - 90)), circleY + radius * math.sin(
-                math.radians(b.angle - 90))
-            b.update_rect()
+        bars = []
 
-            poly.append(b.rect.points[3])
-            poly.append(b.rect.points[2])
+        tmp_bars = []
 
-    pygame.draw.polygon(screen, poly_color, poly)
-    pygame.draw.circle(screen, circle_color, (circleX, circleY), int(radius))
+        length = 0
 
-    if Buttons.play_button.draw():
-        if Buttons.its_playing:
-            pygame.mixer.music.unpause()
-        else:
-            pygame.mixer.music.pause()
+        for group in freq_groups:
+
+            g = []
+
+            s = group["stop"] - group["start"]
+
+            count = group["count"]
+
+            reminder = s % count
+
+            step = int(s / count)
+
+            rng = group["start"]
+
+            for i in range(count):
+
+                arr = None
+
+                if reminder > 0:
+                    reminder -= 1
+                    arr = np.arange(start=rng, stop=rng + step + 2)
+                    rng += step + 3
+                else:
+                    arr = np.arange(start=rng, stop=rng + step + 1)
+                    rng += step + 2
+
+                g.append(arr)
+
+                length += 1
+
+            tmp_bars.append(g)
+
+        angle_dt = 340 / length
+
+        ang = 0
+
+        for g in tmp_bars:
+            gr = []
+            for c in g:
+                gr.append(
+                    RotatedAverageAudioBar(circleX + radius * math.cos(math.radians(ang - 90)),
+                                           circleY + radius * math.sin(math.radians(ang - 90)), c, (255, 0, 255),
+                                           angle=ang,
+                                           width=8, max_height=370))
+                ang += angle_dt
+
+            bars.append(gr)
+
+        pygame.mixer.music.load(filename)
+        pygame.mixer.music.play(0)
+
+        running = True
+        while running:
+
+            avg_bass = 0
+            poly = []
+
+            t = pygame.time.get_ticks()
+            deltaTime = (t - getTicksLastFrame) / 1000.0
+            getTicksLastFrame = t
+
+            timeCount += deltaTime
+
+            screen.fill(circle_color)
 
 
-    pygame.display.flip()
+            # Did the user click the window close button?
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+                    main_running = False
+
+            for b1 in bars:
+                for b in b1:
+                    b.update_all(deltaTime, pygame.mixer.music.get_pos() / 1000.0, analyzer)
+
+            for b in bars[0]:
+                avg_bass += b.avg
+
+            avg_bass /= len(bars[0])
+
+            if avg_bass > bass_trigger:
+                if bass_trigger_started == 0:
+                    bass_trigger_started = pygame.time.get_ticks()
+                if (pygame.time.get_ticks() - bass_trigger_started) / 1000.0 > 2:
+                    polygon_bass_color = rnd_color()
+                    bass_trigger_started = 0
+                if polygon_bass_color is None:
+                    polygon_bass_color = rnd_color()
+                newr = min_radius + int(
+                    avg_bass * ((max_radius - min_radius) / (max_decibel - min_decibel)) + (max_radius - min_radius))
+                radius_vel = (newr - radius) / 0.15
+
+                polygon_color_vel = [(polygon_bass_color[x] - poly_color[x]) / 0.15 for x in range(len(poly_color))]
+
+            elif radius > min_radius:
+                bass_trigger_started = 0
+                polygon_bass_color = None
+                radius_vel = (min_radius - radius) / 0.15
+                polygon_color_vel = [(polygon_default_color[x] - poly_color[x]) / 0.15 for x in range(len(poly_color))]
+
+            else:
+                bass_trigger_started = 0
+                poly_color = polygon_default_color.copy()
+                polygon_bass_color = None
+                polygon_color_vel = [0, 0, 0]
+
+                radius_vel = 0
+                radius = min_radius
+
+            radius += radius_vel * deltaTime
+
+            for x in range(len(polygon_color_vel)):
+                value = polygon_color_vel[x] * deltaTime + poly_color[x]
+                poly_color[x] = value
+
+            for b1 in bars:
+                for b in b1:
+                    b.x, b.y = circleX + radius * math.cos(math.radians(b.angle - 90)), circleY + radius * math.sin(
+                        math.radians(b.angle - 90))
+                    b.update_rect()
+
+                    poly.append(b.rect.points[3])
+                    poly.append(b.rect.points[2])
+
+            pygame.draw.polygon(screen, poly_color, poly)
+            pygame.draw.circle(screen, circle_color, (circleX, circleY), int(radius))
+
+            pygame.draw.rect(screen, '#272727', pygame.Rect(0, screen_h - 110, screen_w, 110))
+
+            buttons_play()
+
 
 pygame.quit()
