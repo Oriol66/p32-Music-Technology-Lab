@@ -24,11 +24,13 @@ def buttons_play():
     global shape_option, running, filename, analyzer
 
     if Buttons.line_button.draw():
+        pygame.draw.rect(screen, '#CCCCFF', pygame.Rect(screen_w/4, screen_h/4, 500, 30))
         shape_option = 1
         running = False
         pygame.mixer.music.rewind()
 
     if Buttons.circle_button.draw():
+        pygame.draw.rect(screen, '#CCCCFF', pygame.Rect(screen_w/4, screen_h/4, 500, 30))
         shape_option = 2
         pygame.mixer.music.rewind()
         running = False
@@ -138,7 +140,7 @@ polygon_default_color = [255, 255, 255]
 polygon_bass_color = polygon_default_color.copy()
 polygon_color_vel = [0, 0, 0]
 
-shape_option = 2    #CIRCLE
+shape_option = 1    # 1 -- LINE // 2 -- CIRCLE
 main_running = True
 #########################THE MAIN###################
 while main_running:
@@ -150,8 +152,6 @@ while main_running:
         analyzer.load(filename)
 
         screen.fill((0, 0, 0))
-
-        pygame.draw.rect(screen, 'gray', pygame.Rect(screen_h - 200, 0, screen_w, 200))
 
         time_series, sample_rate = librosa.load(filename)  # getting information from the file
 
@@ -187,28 +187,24 @@ while main_running:
         r = len(frequencies)
 
         width = screen_w / 2 / r
-
-        x = 150
-        y = 300
         mheight = 400
+        x = screen_w / 4
+        y = (screen_h / 2) - mheight/2
 
         for c in frequencies:
 
-            if c >= 150:
-                bars.append(AudioBar(x, y, c, (200, 0, 50), max_height=mheight, width=width))
             if c >= 250:
-                bars.append(AudioBar(x, y, c, (150, 0, 100), max_height=mheight, width=width))
+                bars.append(AudioBar(x, y, c, (64, 224, 208), max_height=mheight, width=width))
             if c >= 1000:
-                bars.append(AudioBar(x, y, c, (100, 0, 150), max_height=mheight, width=width))
+                bars.append(AudioBar(x, y, c, (223, 255, 0), max_height=mheight, width=width))
+            if c >= 2500:
+                bars.append(AudioBar(x, y, c, (255, 127, 80), max_height=mheight, width=width))
             if c >= 4000:
-                bars.append(AudioBar(x, y, c, (50, 0, 200), max_height=mheight, width=width))
-            if c >= 10000:
-                bars.append(AudioBar(x, y, c, (0, 0, 255), max_height=mheight, width=width))
-            if c < 150:
-                bars.append(AudioBar(x, y, c, (255, 0, 0), max_height=mheight, width=width))
+                bars.append(AudioBar(x, y, c, (222, 49, 99), max_height=mheight, width=width))
+            if c < 250:
+                bars.append(AudioBar(x, y, c, (100, 149, 237), max_height=mheight, width=width))
 
             x += 10
-            #y += 2 * np.pi + width
 
         t = pygame.time.get_ticks()
         getTicksLastFrame = t
@@ -235,7 +231,7 @@ while main_running:
 
             # Fill the background with black
             screen.fill((0, 0, 0))
-
+            pygame.draw.rect(screen, '#272727', pygame.Rect(0, screen_h - 110, screen_w, 110))
 
             for b in bars:
                 b.update(deltaTime, get_decibel(pygame.mixer.music.get_pos() / 1000.0, b.freq))
@@ -311,7 +307,7 @@ while main_running:
 
             tmp_bars.append(g)
 
-        angle_dt = 340 / length
+        angle_dt = 360 / length
 
         ang = 0
 

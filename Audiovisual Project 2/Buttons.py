@@ -98,8 +98,6 @@ class Button_folder():
             if pygame.mouse.get_pressed()[0] == 1:
                 self.clicked = True
                 pressed = True
-
-
             else:
                 pressed = False
 
