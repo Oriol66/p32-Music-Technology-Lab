@@ -1,8 +1,5 @@
 import pygame
-import time
 
-import sys
-from os import path
 global screen
 global infoObject
 global screen_h
@@ -17,13 +14,13 @@ screen_h = 600
 
 screen = pygame.display.set_mode([screen_w, screen_h])
 
-play = pygame.image.load("play.png").convert_alpha()
-pause = pygame.image.load('pausa.png').convert_alpha()
-line = pygame.image.load("line_image.png").convert_alpha()
-circle = pygame.image.load("circle_image.png").convert_alpha()
-folder = pygame.image.load("search.png").convert_alpha()
-folder_text = pygame.image.load("Search a song!.png").convert_alpha()
-select_text = pygame.image.load("select_text.png").convert_alpha()
+play = pygame.image.load("images/play.png").convert_alpha()
+pause = pygame.image.load('images/pausa.png').convert_alpha()
+line = pygame.image.load("images/line_image.png").convert_alpha()
+circle = pygame.image.load("images/circle_image.png").convert_alpha()
+folder = pygame.image.load("images/search.png").convert_alpha()
+folder_text = pygame.image.load("images/Search a song!.png").convert_alpha()
+select_text = pygame.image.load("images/select_text.png").convert_alpha()
 
 
 image1 = pause

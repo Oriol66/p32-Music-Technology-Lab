@@ -12,7 +12,7 @@ def rnd_color():
     return [int(256 * i) for i in colorsys.hls_to_rgb(h, l, s)]
 
 
-loading = pygame.image.load("LOADING.png").convert_alpha()
+loading = pygame.image.load("images/LOADING.png").convert_alpha()
 
 #For play the scene and interactive buttons. It must be executed every time
 def buttons_play():
@@ -107,7 +107,7 @@ class AudioBar:
 
 ###############################GLOBAL AND WINDOW VARIABLES#######################
 
-filename = "Demo_3.wav"
+filename = "songs/Demo_3.wav"
 analyzer = AudioAnalyzer()
 analyzer.load(filename)
 
@@ -205,7 +205,6 @@ while main_running:
                 bars.append(AudioBar(x, y, c, (100, 149, 237), max_height=mheight, width=width))
 
             x += 10
-            #y += 2 * np.pi + width
 
         t = pygame.time.get_ticks()
         getTicksLastFrame = t
