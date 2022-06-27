@@ -12,6 +12,8 @@ def rnd_color():
     return [int(256 * i) for i in colorsys.hls_to_rgb(h, l, s)]
 
 
+loading = pygame.image.load("LOADING.png").convert_alpha()
+
 #For play the scene and interactive buttons. It must be executed every time
 def buttons_play():
 
@@ -24,38 +26,37 @@ def buttons_play():
     global shape_option, running, filename, analyzer
 
     if Buttons.line_button.draw():
-        pygame.draw.rect(screen, '#CCCCFF', pygame.Rect(screen_w/4, screen_h/4, 500, 30))
+        screen.fill("black")
+        pygame.draw.rect(screen, '#272727', pygame.Rect(0, screen_h - 110, screen_w, 110))
+        screen.blit(loading, (screen_w / 2 - loading.get_width() / 2, screen_h / 2 - loading.get_height() / 2))
         shape_option = 1
         running = False
         pygame.mixer.music.rewind()
 
     if Buttons.circle_button.draw():
-        pygame.draw.rect(screen, '#CCCCFF', pygame.Rect(screen_w/4, screen_h/4, 500, 30))
+        screen.fill("black")
+        pygame.draw.rect(screen, '#272727', pygame.Rect(0, screen_h - 110, screen_w, 110))
+        screen.blit(loading, (screen_w / 2 - loading.get_width() / 2, screen_h / 2 - loading.get_height() / 2))
         shape_option = 2
         pygame.mixer.music.rewind()
         running = False
 
     if Buttons.folder_button.draw():
-              
+        screen.fill("black")
+        pygame.draw.rect(screen, '#272727', pygame.Rect(0, screen_h - 110, screen_w, 110))
+        screen.blit(loading, (screen_w / 2 - loading.get_width() / 2, screen_h / 2 - loading.get_height() / 2))
         root = tk.Tk()
         root.withdraw()
         pygame.mixer.quit()
-        filename = filedialog.askopenfilename(title="Select a wav file",filetypes=[('WAV files', '*.wav')])
+        new_filename = filedialog.askopenfilename(title="Select a wav file",filetypes=[('WAV files', '*.wav')])
+        if new_filename != '':
+            filename = new_filename
         analyzer = AudioAnalyzer()
         analyzer.load(filename)
         pygame.mixer.init()
         pygame.mixer.music.load(filename)
 
         running = False
-
-    if Buttons.forward_button.draw():
-        pygame.mixer.init()
-        pygame.mixer.music.stop()
-        ttime = pygame.mixer.music.get_pos() / 2
-        pygame.mixer.music.play(0, ttime)
-
-    if Buttons.back_button.draw():
-        pygame.mixer.music.set_pos(pygame.mixer.music.get_pos() / 1000 - 10)
 
     pygame.display.flip()
 
@@ -115,12 +116,12 @@ pygame.init()
 
 infoObject = pygame.display.Info()
 
-screen_w = int(infoObject.current_w)
-screen_h = int(infoObject.current_w/2 +25)
+#Measurements definition
+screen_w = 1000
+screen_h = 600
 
 # Set up the drawing window
 screen = pygame.display.set_mode([screen_w, screen_h])
-
 
 t = pygame.time.get_ticks()
 getTicksLastFrame = t
@@ -140,7 +141,7 @@ polygon_default_color = [255, 255, 255]
 polygon_bass_color = polygon_default_color.copy()
 polygon_color_vel = [0, 0, 0]
 
-shape_option = 1    # 1 -- LINE // 2 -- CIRCLE
+shape_option = 1    #line
 main_running = True
 #########################THE MAIN###################
 while main_running:
@@ -150,8 +151,6 @@ while main_running:
 
         analyzer = AudioAnalyzer()
         analyzer.load(filename)
-
-        screen.fill((0, 0, 0))
 
         time_series, sample_rate = librosa.load(filename)  # getting information from the file
 
@@ -187,9 +186,10 @@ while main_running:
         r = len(frequencies)
 
         width = screen_w / 2 / r
+
+        x = 150
+        y = 50
         mheight = 400
-        x = screen_w / 4
-        y = (screen_h / 2) - mheight/2
 
         for c in frequencies:
 
@@ -205,6 +205,7 @@ while main_running:
                 bars.append(AudioBar(x, y, c, (100, 149, 237), max_height=mheight, width=width))
 
             x += 10
+            #y += 2 * np.pi + width
 
         t = pygame.time.get_ticks()
         getTicksLastFrame = t
@@ -231,12 +232,13 @@ while main_running:
 
             # Fill the background with black
             screen.fill((0, 0, 0))
-            pygame.draw.rect(screen, '#272727', pygame.Rect(0, screen_h - 110, screen_w, 110))
+
 
             for b in bars:
                 b.update(deltaTime, get_decibel(pygame.mixer.music.get_pos() / 1000.0, b.freq))
                 b.render(screen)
 
+            pygame.draw.rect(screen, '#272727', pygame.Rect(0, screen_h - 110, screen_w, 110))
 
             buttons_play()
 
@@ -257,11 +259,12 @@ while main_running:
         circleX = int(screen_w / 2)
         circleY = int(screen_h / 2  - 50)
 
-        min_radius = 60
+        min_radius = 60 #Inner circle
         max_radius = 100
         radius = min_radius
         radius_vel = 0
 
+        # FREQUENCIES
         bass = {"start": 50, "stop": 100, "count": 12}
         heavy_area = {"start": 120, "stop": 250, "count": 40}
         low_mids = {"start": 251, "stop": 2000, "count": 50}
@@ -307,7 +310,7 @@ while main_running:
 
             tmp_bars.append(g)
 
-        angle_dt = 360 / length
+        angle_dt = 340 / length
 
         ang = 0
 
@@ -318,7 +321,7 @@ while main_running:
                     RotatedAverageAudioBar(circleX + radius * math.cos(math.radians(ang - 90)),
                                            circleY + radius * math.sin(math.radians(ang - 90)), c, (255, 0, 255),
                                            angle=ang,
-                                           width=8, max_height=370))
+                                           width=8, max_height=180)) ## TOCAT
                 ang += angle_dt
 
             bars.append(gr)
@@ -389,6 +392,10 @@ while main_running:
 
             for x in range(len(polygon_color_vel)):
                 value = polygon_color_vel[x] * deltaTime + poly_color[x]
+
+                #Cast value in between range 0-255
+                value = max(0, value)
+                value = min(value, 255)
                 poly_color[x] = value
 
             for b1 in bars:
