@@ -76,9 +76,9 @@ class Button_play():
 
 #2
 class Button_folder():
-    def __init__(self, xfolder, yfolder, folder):
-        self.folder = pygame.transform.scale(folder, (80, 80))
-        self.text = pygame.transform.scale(folder_text, (150, 30))
+    def __init__(self, xfolder, yfolder, folder, folder_scale, folder_text, text_scale_x, text_scale_y):
+        self.folder = pygame.transform.scale(folder, (folder_scale, folder_scale))
+        self.text = pygame.transform.scale(folder_text, (text_scale_x, text_scale_y))
         self.rect = self.folder.get_rect()
         self.rect.topleft = (xfolder, yfolder)
         self.clicked = False
@@ -97,14 +97,14 @@ class Button_folder():
                 pressed = False
 
         screen.blit(image2, (self.rect.x, self.rect.y))
-        screen.blit(self.text, (self.rect.x + 100, self.rect.y + 50))
+        screen.blit(self.text, (self.rect.x + self.folder.get_width() + 10, self.rect.y))
         return pressed
 
 #######################DOWN PART CLASSES################
 #10
 class Button_line():
-    def __init__(self, xline, yline, line):
-        self.line = pygame.transform.scale(line, (80, 80))
+    def __init__(self, xline, yline, line, scale):
+        self.line = pygame.transform.scale(line, (scale, scale))
         self.rect = self.line.get_rect()
         self.rect.topleft = (xline, yline)
         self.clicked = False
@@ -129,9 +129,9 @@ class Button_line():
         return pressed
 #11
 class Button_circle():
-    def __init__(self, xcircle, ycircle, circle):
-        self.circle = pygame.transform.scale(circle, (80, 80))
-        self.text = pygame.transform.scale(select_text, (150, 30))
+    def __init__(self, xcircle, ycircle, circle, scale, text_x, text_y):
+        self.circle = pygame.transform.scale(circle, (scale, scale))
+        self.text = pygame.transform.scale(select_text, (text_x, text_y))
         self.rect = self.circle.get_rect()
         self.rect.topleft = (xcircle, ycircle)
         self.clicked = False
@@ -153,7 +153,7 @@ class Button_circle():
                 pressed = False
 
         screen.blit(image11, (self.rect.x, self.rect.y))
-        screen.blit(self.text, (self.rect.x - 200, self.rect.y))
+        screen.blit(self.text, (self.rect.x - 180, self.rect.y))
 
         return pressed
 
@@ -167,14 +167,14 @@ play_button = Button_play(x, y, play, pause)
 ###########################SEARCH BUTTON##################
 xfolder = 50
 yfolder = screen_h - 90
-folder_button = Button_folder(xfolder, yfolder, folder)
+folder_button = Button_folder(xfolder, yfolder, folder, 80, folder_text, 150, 30)
 
 
 #####################VISUALIZER TYPE BUTTONS######################
 xcircle = screen_w - 200
 ycircle = screen_h - 90
-circle_button = Button_circle(xcircle, ycircle, circle)
+circle_button = Button_circle(xcircle, ycircle, circle, 80, 150, 50)
 
 xline = xcircle + 100
 yline = screen_h - 90
-line_button = Button_line(xline, yline, line)
+line_button = Button_line(xline, yline, line, 80)

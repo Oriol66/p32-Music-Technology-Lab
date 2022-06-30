@@ -3,6 +3,8 @@ import random
 import tkinter as tk
 from tkinter import filedialog
 
+import pygame.mixer
+
 from AudioAnalyzer import *
 import Buttons
 
@@ -26,28 +28,31 @@ def buttons_play():
     global shape_option, running, filename, analyzer
 
     if Buttons.line_button.draw():
+        pygame.mixer.quit()
         screen.fill("black")
         pygame.draw.rect(screen, '#272727', pygame.Rect(0, screen_h - 110, screen_w, 110))
         screen.blit(loading, (screen_w / 2 - loading.get_width() / 2, screen_h / 2 - loading.get_height() / 2))
         shape_option = 1
         running = False
-        pygame.mixer.music.rewind()
+        pygame.mixer.init()
+
 
     if Buttons.circle_button.draw():
+        pygame.mixer.quit()
         screen.fill("black")
         pygame.draw.rect(screen, '#272727', pygame.Rect(0, screen_h - 110, screen_w, 110))
         screen.blit(loading, (screen_w / 2 - loading.get_width() / 2, screen_h / 2 - loading.get_height() / 2))
         shape_option = 2
-        pygame.mixer.music.rewind()
+        pygame.mixer.init()
         running = False
 
     if Buttons.folder_button.draw():
+        pygame.mixer.quit()
         screen.fill("black")
         pygame.draw.rect(screen, '#272727', pygame.Rect(0, screen_h - 110, screen_w, 110))
         screen.blit(loading, (screen_w / 2 - loading.get_width() / 2, screen_h / 2 - loading.get_height() / 2))
         root = tk.Tk()
         root.withdraw()
-        pygame.mixer.quit()
         new_filename = filedialog.askopenfilename(title="Select a wav file",filetypes=[('WAV files', '*.wav')])
         if new_filename != '':
             filename = new_filename
@@ -106,22 +111,20 @@ class AudioBar:
 
 
 ###############################GLOBAL AND WINDOW VARIABLES#######################
-
-filename = "songs/Demo_3.wav"
-analyzer = AudioAnalyzer()
-analyzer.load(filename)
-
-
-pygame.init()
-
-infoObject = pygame.display.Info()
-
 #Measurements definition
 screen_w = 1000
 screen_h = 600
 
 # Set up the drawing window
 screen = pygame.display.set_mode([screen_w, screen_h])
+
+filename = "songs/Demo_3.wav"
+analyzer = AudioAnalyzer()
+analyzer.load(filename)
+
+pygame.init()
+
+infoObject = pygame.display.Info()
 
 t = pygame.time.get_ticks()
 getTicksLastFrame = t
@@ -141,7 +144,7 @@ polygon_default_color = [255, 255, 255]
 polygon_bass_color = polygon_default_color.copy()
 polygon_color_vel = [0, 0, 0]
 
-shape_option = 1    #line
+shape_option = 1    #init mode = line
 main_running = True
 #########################THE MAIN###################
 while main_running:
